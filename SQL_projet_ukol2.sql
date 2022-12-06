@@ -86,14 +86,15 @@ CREATE OR REPLACE VIEW Milk AS
 	SELECT milk_price, ROW_NUMBER()  OVER (ORDER BY milk_price)  AS id
 	FROM id_add;
 		
--- czechia price selection
+-- Czechia payroll selection
 CREATE OR REPLACE VIEW payroll_maxmin AS (
 	SELECT ROUND(AVG(revenue),2) AS avg_revenue, payroll_year, payroll_quarter 
 	FROM sel_cz_payroll
 	WHERE payroll_year 
 	GROUP BY payroll_year, payroll_quarter 
 );
-	
+
+-- ONLY TWO VALUES Max and Min WITH THEIR RESPECTIVE ID
 CREATE OR REPLACE VIEW payrolls AS 
 	WITH id_add AS (
 		SELECT avg_revenue AS payroll_minmax
