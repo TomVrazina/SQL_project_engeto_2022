@@ -12,7 +12,7 @@
 
 ## Description
 
-### Main tasks in a project were generate two tables which are presented in the
+Main tasks in a project were generate two tables which are presented in the
   form of code:
   * _SQL_project_tables.sql_
   
@@ -20,6 +20,17 @@
   * _t_tomas_vrazina_project_sql_primary_final.csv_
   * _t_tomas_vrazina_project_sql_secondary_final.csv_
 
-### Creation of datascript presented in the form of 5 sql script
+Creation of datascript presented in the form of 5 sql script, And with these scripts to answer all research questions
 
+## Questions and Answers
+
+### Question 1
+Do payrolls increase over the years in all branches or in some of them they decrease ? 
+  
+* _They decrease in some of them, can be seen after activation of SQL_project_ukol1_ 
+
+Note: it was calculated for calcuation code 100 and for calculation code 200 the table is in "others"
+
+### Question 2
+How many litres of milk and kilograms of bread is possible to buy for first and last comparable period of time in available date of price and payrolls?
 
