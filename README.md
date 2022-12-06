@@ -39,4 +39,6 @@ How many litres of milk and kilograms of bread is possible to buy for first and 
 * _The question can be extended for example if i buy 500 hundred kilograms of breads how many litres i can buy with remaining payroll
 * _for that reason analytic can use this equation:_
 * $N=(Payroll-M*Bread)/Milk$ 
-*  
+* _for number of kilograms of bread_:
+* $M=(Payroll-N*Milk)/Bread$ 
+* Note: M, N kilograms and literes of bread and milk
