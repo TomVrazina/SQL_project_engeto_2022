@@ -45,7 +45,7 @@ CREATE OR REPLACE TABLE eucountry (
 
 -- Final Tables
 
-CREATE OR REPLACE TABLE t_tomas_vrazina_project_SQL_primary_final AS ( 
+CREATE OR REPLACE TABLE t_tomas_vrazina_project_SQL_primary_final1 AS ( 
 	SELECT *
 	FROM t3
 	LEFT JOIN t4
