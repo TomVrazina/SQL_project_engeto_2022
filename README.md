@@ -38,5 +38,5 @@ How many litres of milk and kilograms of bread is possible to buy for first and 
 * _These columns represent how many litres of milk and kilograms of bread you can afford in afformentioned period of time_ 
 * _The question can be extended for example if i buy 500 hundred kilograms of breads how many litres i can buy with remaining payroll
 * _for that reason analytic can use this equation:_
-* _$\N=(Payroll-M*Bread)/Milk$ 
+* $N=(Payroll-M*Bread)/Milk$ 
 *  
