@@ -49,10 +49,26 @@ Which category of food has slowest growth rate (Lowest percentual annual growth 
 * _category of food which is "rostlinný roztíratelný tuk" - code: 115201, has slowest increase in price_
 * _in script SQL_project_ukol3_
 
+Missing values of: "Víno Jakostní bílé" only availabe from year 2015
+
 ### Question 4 
 Is There a year, in which was annual growth rate of food price significantly higher than growth rate of payrolls (higher than 10%) ?
 
-* _From the column differ from SQL_project_ukol3 is possible to find out that there is no such year in which food price would be higher than 10% and would be about 10% higher than payrolls_
+* _From the column differ from SQL_project_ukol4 is possible to find out that there is no such year in which food price would be higher than 10% and would be about 10% higher than payrolls_
 * _Answer to this question: there is no such year_
 
 ### Question 5
+Does high value of GDP influence payrolls and price of food? More precisely, if GDP increase significantly in one year, will the values of payrolls and prices significantly grow in same or next year  
+
+* _This is not exactly hypothesis but it is research question. And that is why i create hypothesis (for the sake of assignment)_
+* _Zero hypothesis: significant increase in GDP should not result in significant grow of payrolls and prices in same or next year_ 
+* _hypothesis One: significant increase in GDP should result in significant grow of payrolls and prices in same or next year_ 
+* _Data for analysis are provided in SQL_project_ukol5_
+* _but my modest analysis is present in folder - other -> in excel file_
+* _Because only one idea on hypothesis test struck me that is pearson correlation i used it_
+* _Result of this test telling if GDP with payrolls and prices are correlating positively or negatively_
+* _it is shown that in only for a case: grow in payrolls in next year we can consider H0 rejection because r value with level of significance 0,1 is on the level that it can be rejected: page: https://www.statisticssolutions.com/free-resources/directory-of-statistical-analyses/pearsons-correlation-coefficient/table-of-critical-values-pearson-correlation/_
+* _significant increase in GDP should result in significant grow of payrolls --- H0 in case of next year payrolls is reject in other we cannot reject it_
+* _But we need to consider that GDP alone is not only one relevant factor. For example in 2015 growth rate of food price was decreasing due to decrease of prices in energy sector and also because of the China food prices development_
+* _If this year wouldn´t be included in analysis Pearson coefficient would be higher and would lead to rejection of other part of H0 hypothesis_ 
+* _Note: Analysis was done only from part of data where GDP growth rate was increasing_
