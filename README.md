@@ -29,7 +29,7 @@ Do payrolls increase over the years in all branches or in some of them they decr
   
 * _They decrease in some of them, can be seen after activation of SQL_project_ukol1_ 
 
-Note: it was calculated for calcuation code 100 and for calculation code 200 the table is in "others"
+Note: it was calculated for calcuation code 100 and for calculation code 200 the table is in folder "others"
 
 ### Question 2
 How many litres of milk and kilograms of bread is possible to buy for first and last comparable period of time in available date of price and payrolls?
