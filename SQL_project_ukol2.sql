@@ -14,8 +14,8 @@ CREATE OR REPLACE TABLE sel_cz_payroll AS(
 );
 
 -- BREAD
-CREATE OR REPLACE VIEW eval2 AS
-	WITH eval AS (
+CREATE OR REPLACE VIEW eval_bread AS
+	WITH eval_quartile AS (
 		SELECT 
 			ROUND(AVG(value),3) AS value_avg, date_from, category_code,
 			CASE 
@@ -30,19 +30,19 @@ CREATE OR REPLACE VIEW eval2 AS
 		GROUP BY date_from, category_code
 	)
 	SELECT ROUND(AVG(value_avg),3) value_av, YEAR(date_from) AS year_eval, quartile
-	FROM eval
+	FROM eval_quartile
 	GROUP BY year_eval, quartile
 	ORDER BY year_eval DESC;
 
 CREATE OR REPLACE VIEW Bread AS 
 	WITH id_add AS (
 		SELECT value_av AS bread_price
-		FROM eval2
+		FROM eval_bread
 		WHERE year_eval = 2006
 			AND quartile = 'Q1'
 		UNION
 		SELECT value_av
-		FROM eval2
+		FROM eval_bread
 		WHERE year_eval = 2018
 			AND quartile = 'Q4'
 	)
@@ -51,8 +51,8 @@ CREATE OR REPLACE VIEW Bread AS
 
 
 -- MILK
-CREATE OR REPLACE VIEW eval1 AS
-	WITH eval AS (
+CREATE OR REPLACE VIEW eval_milk AS
+	WITH eval_quartile AS (
 		SELECT 
 			ROUND(AVG(value),2) AS value_avg, date_from, category_code,
 			CASE 
@@ -67,19 +67,19 @@ CREATE OR REPLACE VIEW eval1 AS
 		GROUP BY date_from, category_code
 	)
 	SELECT ROUND(AVG(value_avg),2) value_av, YEAR(date_from) AS year_eval, quartile
-	FROM eval
+	FROM eval_quartile
 	GROUP BY year_eval, quartile
 	ORDER BY year_eval DESC;
 
 CREATE OR REPLACE VIEW Milk AS 
 	WITH id_add AS (
 		SELECT value_av AS milk_price
-		FROM eval1
+		FROM eval_milk
 		WHERE year_eval = 2006
 			AND quartile = 'Q1'
 		UNION
 		SELECT value_av
-		FROM eval1
+		FROM eval_milk
 		WHERE year_eval = 2018
 			AND quartile = 'Q4'
 	)
@@ -109,7 +109,7 @@ CREATE OR REPLACE VIEW payrolls AS
 	FROM id_add;
 
 -- TABLE OF Payroll, milk and bread
-CREATE OR REPLACE TABLE PMB (
+CREATE OR REPLACE TABLE Payroll_milk_bread (
 	SELECT  p.id, p.payroll_minmax, m.milk_price, b.bread_price 
 	FROM payrolls p 
 	JOIN milk m 
@@ -123,4 +123,4 @@ SELECT
 	payroll_minmax, 
 	milk_price, 
 	bread_price 
-FROM pmb p;
+FROM Payroll_milk_bread p;
