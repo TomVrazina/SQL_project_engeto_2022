@@ -14,10 +14,10 @@ CREATE OR REPLACE TABLE sel_cz_payroll AS(
 );
 
 -- Payroll table
-CREATE OR REPLACE TABLE mzdy1 AS (
-	WITH selec2 AS (
-		WITH selec1 AS (
-			WITH selec AS (
+CREATE OR REPLACE TABLE revenue_table AS (
+	WITH growth_estimation AS (
+		WITH averaging AS (
+			WITH baseline AS (
 				SELECT 
 					revenue,
 					name, 
@@ -27,26 +27,26 @@ CREATE OR REPLACE TABLE mzdy1 AS (
 				GROUP BY payroll_year, name , payroll_quarter 
 			)
 			SELECT ROUND(AVG(revenue),0) AS avg_rev, payroll_year, payroll_quarter 
-			FROM selec
+			FROM baseline
 			WHERE payroll_year 
 			GROUP BY payroll_year, payroll_quarter 
 		)
 		SELECT 
 			AVG(avg_rev) AS average,
 			payroll_year
-		FROM selec1
+		FROM averaging
 		GROUP BY payroll_year
 )
 SELECT 
 	ROUND(average / LAG(average) OVER (ORDER BY payroll_year ASC),5)*100 - 100 AS price_growth, 
 	payroll_year
-FROM selec2
+FROM growth_estimation
 WHERE payroll_year BETWEEN 2005 AND 2018 
 );
 
 -- products
-CREATE OR REPLACE TABLE vino AS (
-	WITH diff AS (
+CREATE OR REPLACE TABLE wine AS (
+	WITH year_average AS (
 		WITH regavg AS (
 			SELECT ROUND(AVG(value),3) AS value_avg, date_from, category_code 
 			FROM sel_cz_price
@@ -60,15 +60,15 @@ CREATE OR REPLACE TABLE vino AS (
 		val_avg,
 		year_payroll,
 		category_code
-	FROM diff
+	FROM year_average
 	WHERE year_payroll != 2005
 	ORDER BY category_code, year_payroll);
 
---  CLEANING table vino 
-CREATE OR REPLACE TABLE products1 AS (
+--  CLEANING table wine 
+CREATE OR REPLACE TABLE clean_table_products AS (
 	WITH products AS (
 		SELECT AVG(val_avg) AS average, year_payroll
-		FROM vino
+		FROM wine
 		WHERE year_payroll != 2015
 			OR category_code != 'Jakostní víno bílé'
 		GROUP BY year_payroll	
@@ -84,10 +84,10 @@ CREATE OR REPLACE TABLE products1 AS (
 -- putting it together
 	-- year where difference would be 10 % do not exist
 
-WITH diff AS (
+WITH difference AS (
 	SELECT mz1.price_growth AS price, ps1.price_growth AS products, ps1.year_payroll
-	FROM mzdy1 AS mz1
-	LEFT JOIN products1 AS ps1 
+	FROM revenue_table AS mz1
+	LEFT JOIN clean_table_products AS ps1 
 		ON mz1.payroll_year = ps1.year_payroll 
 	WHERE ps1.price_growth IS NOT NULL
 )
@@ -96,6 +96,5 @@ SELECT
 	price,
 	products - price AS differ,
 	year_payroll
-FROM diff;
-
+FROM difference;
 
