@@ -76,5 +76,6 @@ Does high value of GDP influence payrolls and price of food? More precisely, if 
 
 
 Commentary to revision
+
 * _All changes were in way shared in evaluation
 * _Partition by is only suitable for multiple lag tags
