@@ -1,3 +1,4 @@
+-- CREATING SELECTION OF PRICE TABLE
 CREATE OR REPLACE TABLE sel_cz_price AS(
 	SELECT value_price AS value, category_code, date_from
 	FROM t_tomas_vrazina_project_sql_primary_final
@@ -5,8 +6,6 @@ CREATE OR REPLACE TABLE sel_cz_price AS(
 	GROUP BY value, category_code, date_from);
 
 -- Task 3 
-
-
 WITH task_result AS (
 	WITH growth_val_assesment AS (
 		WITH averaging_per_year AS (
