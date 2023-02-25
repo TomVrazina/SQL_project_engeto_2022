@@ -15,19 +15,19 @@ CREATE OR REPLACE TABLE sel_cz_payroll AS(
 
 -- CREATING OF SELECTION TABLE Czech republic
 CREATE OR REPLACE TABLE sel_cz_HDP AS(
-	WITH czc AS (
+	WITH Define_country AS (
 		SELECT eucountry, `year`, GDP, gini 
 		FROM t_tomas_vrazina_project_SQL_secondary_final
 		GROUP BY `year`, GDP, gini 
 	)
 	SELECT eucountry AS country, `year`, GDP, gini 
-	FROM czc
+	FROM Define_country
 	WHERE eucountry = 'Czech republic');
 
 
--- HDP ukol 5 rust hdp 
+-- HDP Task 5 growth of hdp 
 CREATE OR REPLACE TABLE HDP AS (
-		WITH lagging1 AS (
+		WITH GDP_growth_est AS (
 		SELECT 
 			`year`,
 			ROUND((GDP/lAG(GDP) OVER (ORDER BY `year` ASC)), 4)*100 - 100 AS GDP_growth,
@@ -39,14 +39,14 @@ CREATE OR REPLACE TABLE HDP AS (
 		`year`,
 		GDP_growth,
 		GDP
-	FROM lagging1
+	FROM GDP_growth_est
 	WHERE GDP_growth IS NOT NULL );
 	-- AND `year` BETWEEN 2006 AND 2018 )
 
 
 -- products
-CREATE OR REPLACE TABLE vino AS (
-	WITH diff AS (
+CREATE OR REPLACE TABLE wine AS (
+	WITH year_averaging AS (
 		WITH regavg AS (
 			SELECT ROUND(AVG(value),3) AS value_avg, date_from, category_code 
 			FROM sel_cz_price
@@ -60,15 +60,15 @@ CREATE OR REPLACE TABLE vino AS (
 		val_avg,
 		year_payroll,
 		category_code
-	FROM diff
+	FROM year_averaging
 	WHERE year_payroll != 2005
 	ORDER BY category_code, year_payroll);
 
--- KONEC PRICE --- PRODUCTS 
-CREATE OR REPLACE TABLE products1 AS (
+-- END PRICE --- PRODUCTS 
+CREATE OR REPLACE TABLE clean_table_products AS (
 	WITH products AS (
 		SELECT AVG(val_avg) AS average, year_payroll
-		FROM vino
+		FROM wine
 		WHERE year_payroll != 2015
 			OR category_code != 'Jakostní víno bílé'
 		GROUP BY year_payroll	
@@ -81,9 +81,9 @@ CREATE OR REPLACE TABLE products1 AS (
 	ORDER BY year_payroll);
 
 
-CREATE OR REPLACE TABLE mzdy1 AS (
-	WITH selec2 AS (
-		WITH selec1 AS ( 
+CREATE OR REPLACE TABLE revenue_table AS (
+	WITH growth_estimation AS (
+		WITH averaging AS ( 
 			SELECT ROUND(AVG(revenue),0) AS avg_rev, payroll_year, payroll_quarter 
 			FROM sel_cz_payroll
 			WHERE payroll_year 
@@ -92,26 +92,26 @@ CREATE OR REPLACE TABLE mzdy1 AS (
 		SELECT 
 			AVG(avg_rev) AS average,
 			payroll_year
-		FROM selec1
+		FROM averaging
 		GROUP BY payroll_year
 )
 SELECT 
 	ROUND(average / LAG(average) OVER (ORDER BY payroll_year ASC),5)*100 - 100 AS payroll_growth, 
 	payroll_year
-FROM selec2
+FROM growth_estimation
 -- WHERE payroll_year BETWEEN 2005 AND 2018 
 );
 
 
-WITH diff1 AS (
-	WITH diff AS (
+WITH final_table AS (
+	WITH payroll_product_join AS (
 		SELECT 
 			mz1.payroll_growth AS payroll, 
 			ps1.price_growth AS products,
 			h.GDP_growth,
 			mz1.payroll_year
-		FROM mzdy1 AS mz1
-		LEFT JOIN products1 AS ps1 
+		FROM revenue_table AS mz1
+		LEFT JOIN clean_table_products AS ps1 
 			ON mz1.payroll_year = ps1.year_payroll
 		LEFT JOIN hdp AS h 
 			ON mz1.payroll_year = h.`year` 
@@ -123,7 +123,7 @@ WITH diff1 AS (
 		LEAD(products) OVER (ORDER BY payroll_year) AS LEAD_products,
 		GDP_growth,
 		payroll_year 
-	FROM diff
+	FROM payroll_product_join
 )
 SELECT 
 	products,
@@ -132,6 +132,9 @@ SELECT
 	LEAD_payroll,
 	GDP_growth,
 	payroll_year 
-FROM diff1
+FROM final_table
 WHERE products IS NOT NULL
 ORDER BY GDP_growth DESC, payroll_year DESC 
+
+
+
