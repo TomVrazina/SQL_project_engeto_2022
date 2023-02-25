@@ -52,7 +52,7 @@ CREATE OR REPLACE TABLE t_tomas_vrazina_project_SQL_primary_final AS (
 		ON join_payroll_name.payroll_year = join_price_name.date_price);
 
 CREATE OR REPLACE TABLE t_tomas_vrazina_project_SQL_secondary_final
-WITH cz AS (	
+WITH country_economy AS (	
 	SELECT country, GDP, gini, `year` 
 	FROM economies e 
 	WHERE `year` >= 2000 
@@ -61,7 +61,7 @@ WITH cz AS (
 		SELECT country 
 		FROM eucountry)
 )
-SELECT cz.country AS eucountry,`year`, cs.population, GDP, gini 
-FROM cz
+SELECT country_economy.country AS eucountry,`year`, cs.population, GDP, gini 
+FROM country_economy
 INNER JOIN countries cs
-	ON cz.country = cs.country;
+	ON country_economy.country = cs.country;
