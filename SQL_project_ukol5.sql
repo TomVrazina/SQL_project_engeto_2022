@@ -25,8 +25,8 @@ CREATE OR REPLACE TABLE sel_cz_HDP AS(
 	WHERE eucountry = 'Czech republic');
 
 
--- HDP Task 5 growth of hdp 
-CREATE OR REPLACE TABLE HDP AS (
+-- GDP Task 5 growth of GDP 
+CREATE OR REPLACE TABLE GDP AS (
 		WITH GDP_growth_est AS (
 		SELECT 
 			`year`,
@@ -113,7 +113,7 @@ WITH final_table AS (
 		FROM revenue_table AS mz1
 		LEFT JOIN clean_table_products AS ps1 
 			ON mz1.payroll_year = ps1.year_payroll
-		LEFT JOIN hdp AS h 
+		LEFT JOIN GDP AS h 
 			ON mz1.payroll_year = h.`year` 
 	)
 	SELECT 
