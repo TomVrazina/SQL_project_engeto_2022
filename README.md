@@ -72,3 +72,9 @@ Does high value of GDP influence payrolls and price of food? More precisely, if 
 * _But we need to consider that GDP alone is not only one relevant factor. For example in 2015 growth rate of food price was decreasing due to decrease of prices in energy sector and also because of the China food prices development_
 * _If this year wouldn´t be included in analysis Pearson coefficient would be higher and would lead to rejection of other part of H0 hypothesis_ 
 * _Note: Analysis was done only from part of data where GDP growth rate was increasing_
+
+
+
+Commentary to revision
+*_All changes were in way shared in evaluation
+*_Partition by is only suitable for multiple lag tags
