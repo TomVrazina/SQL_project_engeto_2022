@@ -43,6 +43,10 @@ How many litres of milk and kilograms of bread is possible to buy for first and 
 * _for number of kilograms of bread_:
 * $M=(Payroll-N*Milk)/Bread$ 
 * _Note: M, N kilograms and literes of bread and milk_
+* Price of Milk at 2006 was 14,2  and at 2018 was 19,5, Average payroll was 19253
+* Price of Bread at 2018 was 14,7  and at 2018 was 23,9,  Average payroll was 33902
+* At 2006 it was possible to buy 1352 liters of milk or 1305 kg of bread
+* At 2018 it was possible to buy 1741 liters of milk or 1420 kg of bread
 
 ### Question 3
 Which category of food has slowest growth rate (Lowest percentual annual growth rate)?
@@ -72,3 +76,10 @@ Does high value of GDP influence payrolls and price of food? More precisely, if 
 * _But we need to consider that GDP alone is not only one relevant factor. For example in 2015 growth rate of food price was decreasing due to decrease of prices in energy sector and also because of the China food prices development_
 * _If this year wouldn´t be included in analysis Pearson coefficient would be higher and would lead to rejection of other part of H0 hypothesis_ 
 * _Note: Analysis was done only from part of data where GDP growth rate was increasing_
+
+
+
+Commentary to revision
+
+* _All changes were in way shared in evaluation
+* _Partition by is only suitable for multiple lag tags
