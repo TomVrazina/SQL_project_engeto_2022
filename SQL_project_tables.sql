@@ -20,7 +20,7 @@ CREATE OR REPLACE TABLE cz_price_select_gen AS (
 	GROUP BY date_from, category_code, date_price);
 
 CREATE OR REPLACE TABLE join_price_name AS(
-	SELECT value_price, name AS category_code , date_from, date_price
+	SELECT value_price, name AS category_code, date_from, date_price
 	FROM cz_price_select_gen
 	JOIN czechia_price_category cpc  
 		ON cz_price_select_gen.category_code = cpc.code); 
